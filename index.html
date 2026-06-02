@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelulusan SD Negeri 32 Banuaran</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background: linear-gradient(135deg,#0d47a1,#1976d2);
+    color:white;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    color:#333;
+    border-radius:15px;
+    padding:25px;
+    margin-top:20px;
+}
+
+h1,h2{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#1976d2;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1259a7;
+}
+
+#loginSiswa{
+    display:none;
+}
+
+#hasil{
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+}
+
+.success{
+    background:#d4edda;
+    color:#155724;
+}
+
+.error{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.countdown{
+    font-size:30px;
+    font-weight:bold;
+    text-align:center;
+    color:#ffeb3b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>PENGUMUMAN KELULUSAN</h1>
+<h2>SD NEGERI 32 BANUARAN</h2>
+
+<div class="card">
+
+<div id="countdownArea">
+    <h3 style="text-align:center;">
+        Pengumuman Dibuka
+    </h3>
+
+    <p style="text-align:center;">
+        02 Juni 2026 Pukul 18.00 WIB
+    </p>
+
+    <div id="countdown" class="countdown"></div>
+</div>
+
+<div id="loginSiswa">
+
+<h3>Login Siswa</h3>
+
+<input type="text" id="npsn" placeholder="Masukkan NPSN">
+
+<input type="password" id="nisn" placeholder="Masukkan NISN">
+
+<button onclick="cekKelulusan()">
+Lihat Hasil Kelulusan
+</button>
+
+<div id="hasil"></div>
+
+<hr>
+
+<h3>Login Admin</h3>
+
+<input type="text" id="adminUser" placeholder="Username">
+
+<input type="password" id="adminPass" placeholder="Password">
+
+<button onclick="loginAdmin()">
+Masuk Admin
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const targetDate =
+new Date("2026-06-02T18:00:00+07:00").getTime();
+
+const siswa = {
+    "0138463034":"AISYAH HAFIZATUL IZMI"
+    // tambahkan seluruh NISN siswa
+};
+
+function updateCountdown(){
+
+    const now = new Date().getTime();
+
+    const distance = targetDate - now;
+
+    if(distance <= 0){
+
+        document.getElementById(
+        "countdownArea"
+        ).style.display="none";
+
+        document.getElementById(
+        "loginSiswa"
+        ).style.display="block";
+
+        return;
+    }
+
+    const days =
+    Math.floor(distance/(1000*60*60*24));
+
+    const hours =
+    Math.floor(
+    (distance%(1000*60*60*24))
+    /(1000*60*60));
+
+    const minutes =
+    Math.floor(
+    (distance%(1000*60*60))
+    /(1000*60));
+
+    const seconds =
+    Math.floor(
+    (distance%(1000*60))/1000);
+
+    document.getElementById(
+    "countdown").innerHTML =
+    days+" Hari "+
+    hours+" Jam "+
+    minutes+" Menit "+
+    seconds+" Detik";
+}
+
+setInterval(updateCountdown,1000);
+
+updateCountdown();
+
+function cekKelulusan(){
+
+    const npsn =
+    document.getElementById("npsn").value;
+
+    const nisn =
+    document.getElementById("nisn").value;
+
+    const hasil =
+    document.getElementById("hasil");
+
+    if(npsn !== "10304637"){
+
+        hasil.className="error";
+
+        hasil.innerHTML=
+        "NPSN tidak sesuai.";
+
+        return;
+    }
+
+    if(siswa[nisn]){
+
+        hasil.className="success";
+
+        hasil.innerHTML=
+        "<h2>SELAMAT</h2>" +
+        "<p><b>"+siswa[nisn]+"</b></p>" +
+        "<h3>DINYATAKAN LULUS</h3>" +
+        "<p>Tahun Pelajaran 2025/2026</p>" +
+        "<p>Kepala Sekolah<br><b>SERI MARLINA, S.Pd</b></p>";
+
+    }else{
+
+        hasil.className="error";
+
+        hasil.innerHTML=
+        "Data siswa tidak ditemukan.";
+    }
+}
+
+function loginAdmin(){
+
+    const user =
+    document.getElementById("adminUser").value;
+
+    const pass =
+    document.getElementById("adminPass").value;
+
+    if(user==="admin" &&
+       pass==="Admin2026!"){
+
+        alert(
+        "Login Admin Berhasil"
+        );
+
+    }else{
+
+        alert(
+        "Username atau Password salah"
+        );
+    }
+}
+
+</script>
+
+</body>
+</html>
